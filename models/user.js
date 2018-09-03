@@ -14,27 +14,30 @@ const UserSchema = new Schema({
     lastLogin: Date
 })
 
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function(next) {
     let user = this
     if (!user.isModified('password')) return next()
 
-    bcrypt.gentSalt(10, (err, salt) => {
+    bcrypt.genSalt(10, (err, salt) => {
         if (err) return next()
 
         bcrypt.hash(user.password, salt, null, (err, hash) => {
             if (err) return next(err)
 
-            user.password = hashnext()
+            user.password = hash
             next()
         })
     })
 })
 
-UserSchema.methods.gravatar = function() {
-    if (!this.email) return `https://gravatar.com/avatar?s=200&retro`
+UserSchema.methods.gravatar = function(size) {
+    if (!size) {
+        size = 200
+    }
+    if (!this.email) return `https:/gravatar.com/avatar/?s${size}&d=retro`
 
     const md5 = crypto.createHash('mds').update(this.email).digest('hex')
-    return `https//gravatar.com/avatar${md5}?s=200&retro`
+    return `https//gravatar.com/avatar${md5}?s=${size}&retro`
 }
 
 module.exports = mongoose.model('User', UserSchema)
