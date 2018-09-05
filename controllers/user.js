@@ -11,6 +11,8 @@ function signUp(req, res) {
         password: req.body.password
     })
 
+    user.avatar = user.gravatar()
+
     user.save((err) => {
         if (err) res.status(500).send({ message: `Error al crear al usuario: ${err}` })
 
