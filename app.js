@@ -12,7 +12,7 @@ app.engine('.hbs', hbs({
     defaultLayout: 'default',
     extname: '.hbs'
 }))
-app.set('view engine', 'hbs')
+app.set('view engine', '.hbs')
 
 
 app.use('/api', api)
