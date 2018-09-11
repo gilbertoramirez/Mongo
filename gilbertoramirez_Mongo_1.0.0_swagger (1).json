@@ -1,0 +1,270 @@
+{
+  "openapi" : "3.0.0",
+  "servers" : [ {
+    "description" : "SwaggerHub API Mongo NodeJS",
+    "url" : "https://virtserver.swaggerhub.com/gilbertoramirez/Mongo/1.0.0"
+  } ],
+  "info" : {
+    "description" : "This is a sample Mongo Example. You can find \nout more about Swagger at \n[http://swagger.io](http://swagger.io) or on\n[irc.freenode.net #swagger](http://swagger.io/irc/).\n",
+    "version" : "1.0.0",
+    "title" : "Swagger Mongo NodeJS",
+    "termsOfService" : "http://swagger.io/terms",
+    "contact" : {
+      "email" : "gilberto.ramirezmora@gmail.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.prg/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags" : [ {
+    "name" : "Users",
+    "description" : "Users to use the application",
+    "externalDocs" : {
+      "description" : "find out more",
+      "url" : "http://swagger.io"
+    }
+  }, {
+    "name" : "Products",
+    "description" : "Products selt in the application",
+    "externalDocs" : {
+      "description" : "find out more",
+      "url" : "http://swagger.io"
+    }
+  } ],
+  "paths" : {
+    "/signup" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "Create a new user in the application",
+        "responses" : {
+          "500" : {
+            "description" : "Error to create the user"
+          },
+          "201" : {
+            "description" : "user created"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Users"
+              }
+            }
+          },
+          "description" : "Updated product object",
+          "required" : true
+        }
+      }
+    },
+    "/signin" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "Log into the application",
+        "responses" : {
+          "500" : {
+            "description" : "Error al ingresar"
+          },
+          "404" : {
+            "description" : "No existe el usuario"
+          },
+          "200" : {
+            "description" : "Te has loggeado correctamente"
+          }
+        }
+      }
+    },
+    "/products" : {
+      "get" : {
+        "tags" : [ "products" ],
+        "summary" : "Get all the products stored in the database",
+        "responses" : {
+          "500" : {
+            "description" : "Error al realizar la operacion"
+          },
+          "404" : {
+            "description" : "No existen productos"
+          }
+        }
+      }
+    },
+    "/product/{productId}" : {
+      "get" : {
+        "tags" : [ "products" ],
+        "summary" : "Get product identified by id",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "The id that needs to be fetched",
+          "required" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "500" : {
+            "description" : "Error al realizar la operacion"
+          },
+          "404" : {
+            "description" : "No existe el producto"
+          }
+        }
+      }
+    },
+    "/add" : {
+      "post" : {
+        "tags" : [ "products" ],
+        "summary" : "Create a new product to the catalog",
+        "responses" : {
+          "500" : {
+            "description" : "Error al realizar la operacion"
+          },
+          "200" : {
+            "description" : "Producto guardado"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Products"
+              }
+            }
+          },
+          "description" : "Created new product object",
+          "required" : true
+        }
+      }
+    },
+    "/product/:{productId}" : {
+      "put" : {
+        "tags" : [ "products" ],
+        "summary" : "Update a product of the catalog",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "The id that needs to be fetched",
+          "required" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "500" : {
+            "description" : "Error al actualizar el producto"
+          },
+          "200" : {
+            "description" : "Producto actualizado con exito"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Products"
+              }
+            }
+          },
+          "description" : "Updated product object",
+          "required" : true
+        }
+      },
+      "delete" : {
+        "tags" : [ "products" ],
+        "summary" : "Update a product of the catalog",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "The id that needs to be fetched",
+          "required" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "500" : {
+            "description" : "Error al borrar el producto"
+          },
+          "404" : {
+            "description" : "No existe el producto"
+          },
+          "200" : {
+            "description" : "El producto ha sido eliminado"
+          }
+        }
+      }
+    },
+    "/private" : {
+      "get" : {
+        "tags" : [ "middleware" ],
+        "summary" : "middleware with creation of the token in order to have access to private calls",
+        "responses" : {
+          "403" : {
+            "description" : "No tienes autorizacion"
+          },
+          "200" : {
+            "description" : "Tienes acceso"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Users" : {
+        "type" : "object",
+        "required" : [ "id", "email", "password" ],
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "email of the user"
+          },
+          "displayName" : {
+            "type" : "string",
+            "description" : "Name of the user displyed in the application"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "Password of the user"
+          },
+          "signupDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Products" : {
+        "type" : "object",
+        "required" : [ "id", "name", "price" ],
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "picture" : {
+            "type" : "string"
+          },
+          "price" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "category" : {
+            "type" : "string",
+            "enum" : [ "computers", "phones", "accesories" ]
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
